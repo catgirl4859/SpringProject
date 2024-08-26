@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LoveLink - 데이트 장소 검색</title>
+    <link rel="stylesheet" th:href="@{/css/stylekdy.css}">
+    <script th:inline="javascript">
+        var kakaoAppKey = /*[[${kakaoAppKey}]]*/ '95e178d0770fb28588aaa64253f3ae29';
+    </script>
+    <script th:src="@{'//dapi.kakao.com/v2/maps/sdk.js?appkey=' + ${kakaoAppKey} + '&libraries=services'}"></script>
+    <style>
+        .infowindow-content {
+            padding: 10px;
+            width: 300px;
+        }
+        .infowindow-content h5 {
+            margin-top: 0;
+            margin-bottom: 5px;
+        }
+        .infowindow-content p {
+            margin: 5px 0;
+        }
+        .infowindow-content button, .infowindow-content a {
+            margin-top: 10px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- 배경, 헤더 이미지 -->
+<img src="/image/BG.svg" alt="Background" id="bg">
+<img src="/image/header.svg" alt="Header" id="header">
+
+<!-- 네비게이션 바 -->
+<header style="height: 30%; width: 100%">
+    <nav>
+        <a th:href="@{/notice/user/usernoticelist}">공지사항</a>
+        <a href="@{/chat/chatroom}">채팅</a>
+        <a th:href="@{/date/datesearch}">데이트 컨텐츠</a>
+        <a th:href="@{/profile/list}">MY Profile</a>
+        <a th:href="@{/logout}">LOGOUT</a>
+    </nav>
+</header>
+
+<div style="display: flex; justify-content: center; justify-items: center">
+    <div class="container">
+        <main role="main">
+            <div class="search-section">
+                <div class="orange-section">우리오늘 뭐할까?</div>
+                <div class="blue-section">찾아보기</div>
+            </div>
+
+            <div class="content-section">
+                <div class="map_wrap">
+                    <div id="map" style="width:1500px;height:690px;"></div>
+                    <div id="menu_wrap">
+                        <div class="option">
+                            <div>
+                                키워드 : <input type="text" value="강남역" id="keyword" size="15">
+                                <button id="search-button">검색하기</button>
+                            </div>
+                        </div>
+                        <ul id="placesList"></ul>
+                        <div id="pagination"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=95e178d0770fb28588aaa64253f3ae29&libraries=services"></script>
+<script th:src="@{/javascript/javakdy.js}"></script>
+<a href="/date/likedPlaces" class="liked-Places-link" style="display: block; margin-top: 10px; padding: 10px; background-color: #4169E1; color: white; text-decoration: none; text-align: center;">찜한 장소 목록 보기</a>
+</body>
+</html>

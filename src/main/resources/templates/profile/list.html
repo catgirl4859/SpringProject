@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link type="text/css" rel="stylesheet" th:href="@{/static/common.css}">
+    <link type="text/css" rel="stylesheet" th:href="@{/static/css/profilecss/profilelist.css}">
+    <link rel="stylesheet" th:href="@{/static/css/login.css}">
+    <title>list Profile</title>
+
+    <!--개인회원 프로필 등록 완료된 페이지-->
+</head>
+<body>
+<!-- 배경, 헤더 이미지 css -->
+<img src="/static/image/BG.svg" alt="Background" id="bg">
+<img src="/static/image/header.svg" alt="Header" id="header">
+<!-- 네비게이션 바 -->
+<div>
+    <header>
+         <nav>
+             <div sec:authorize="isAuthenticated()">
+                 <script th:src="@{static/javascript/userFooter.js}"></script>
+                 <div id="user-info"></div>
+             </div>
+             <a th:href="@{/notice/user/usernoticelist}">공지사항</a>
+             <a href="#">채팅</a>
+             <a th:href="@{/date/datesearch}">데이트 컨텐츠</a>
+             <a th:href="@{/profile/list}">MY Profile</a>
+             <a th:href="@{/logout}">LOGOUT</a>
+         </nav>
+    </header>
+</div>
+
+<div class="container">
+<div class="content-container">
+    <div class="profile-container">
+        <h1>전체 회원들</h1>
+    </div>
+        <div class="profile-container">
+            <div class="profile-box" th:each="profileList: ${profileDTOList}">
+                <img th:if="${profileList.storedFileName != null and !profileList.storedFileName.isEmpty()}"
+                     th:src="@{'/profile-images/' + ${profileList.storedFileName}}"
+                     alt="프로필 사진" class="profile-image">
+                <p th:unless="${profileList.storedFileName != null and !profileList.storedFileName.isEmpty()}">
+                    사진 없음
+                </p>
+                <input type="hidden" th:value="${profileList.profileNo}" />
+                <p>이름: <a th:href="@{|/profile/${profileList.profileNo}|}" th:text="${profileList.profileName}"></a></p>
+                <p>주소: <span th:text="${profileList.profileLocation}"></span></p>
+                <p>MBTI: <span th:text="${profileList.profileMBTI}"></span></p>
+            </div>
+        </div>
+        <br><br>
+        <div class="pagination">
+            <a th:if="${profileDTOList.hasPrevious()}" th:href="@{/profile/list(page=${profileDTOList.number - 1})}">이전</a>
+
+            <span th:text="${profileDTOList.number + 1}"></span> / <span th:text="${profileDTOList.totalPages}"></span>
+
+            <a th:if="${profileDTOList.hasNext()}" th:href="@{/profile/list(page=${profileDTOList.number + 1})}">다음</a>
+        </div>
+        <br><br>
+        <div class="footerBTN">
+            <button onclick="findMyStyle()" class="footButton"> 내 이상형 찾기 </button>
+            <button onclick="moveToJenny()" class="footButton"> 데이트 컨텐츠 </button>
+            <button onclick="moveToNotice()" class="footButton"> 공지사항 </button>
+            <button onclick="saveProfile()" class="footButton"> 프로필 등록</button>
+        </div>
+</div>
+</div>
+
+</body>
+
+
+<script>
+    // 하영님 파트
+    const findMyStyle = () => {
+        location.href="/match/matchProfiles"
+    }
+
+    const moveToJenny = () => {
+        location.href="/date/datesearch"
+    }
+
+    const moveToNotice = () => {
+        location.href="/notice/user/usernoticelist"
+    }
+
+    const saveProfile = () => {
+        location.href="/profile/save"
+    }
+
+</script>
+</html>
+
+
